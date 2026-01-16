@@ -1,0 +1,142 @@
+# ABS-KoSync Enhanced - Example Docker Compose Configuration
+#
+# Copy this file to docker-compose.yml and fill in your values.
+# See README.md for detailed configuration instructions.
+
+services:
+  abs-kosync-enhanced:
+    image: ghcr.io/jessicayvonne27/abs-kosync-enhanced:latest
+
+    container_name: abs_kosync_enhanced
+    restart: unless-stopped
+
+    environment:
+      # ============================================
+      # General Settings
+      # ============================================
+      - TZ=America/New_York
+      - LOG_LEVEL=INFO
+
+      # ============================================
+      # Audiobookshelf Configuration (REQUIRED)
+      # ============================================
+      # Your ABS server URL
+      - ABS_SERVER=https://audiobookshelf-honeyblossom.deadpool.mygiga.cloud:443
+      # API key from ABS: Settings -> Users -> Your User -> API Token
+      - ABS_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJeyJrZXlJZCI6IjViYThlMTEwLWYxZTAtNGY0Yy1hMzkwLTI0ZmU5NzNhMWJlNSIsIm5hbWUiOiJhYnMga29zeW5jIiwidHlwZSI6ImFwaSIsImlhdCI6MTc2ODM2NzA4NH0Qyx04IZE0Pj6mmbtbBGjCKfiT7yXdoJ7hEVek00t0ok
+      # Library ID from URL: /library/THIS_PART_HERE
+      - ABS_LIBRARY_ID=4feceae1-90ff-4823-8ebc-e4d3b0eb981e
+      # Collection name for synced books (auto-created if missing)
+      - ABS_COLLECTION_NAME=Synced with KOReader
+      # Optionally, adjust progress offset in seconds, like -60 for 1 minute back
+      # - ABS_PROGRESS_OFFSET_SECONDS=-30
+
+      # ============================================
+      # KOSync Configuration (REQUIRED)
+      # ============================================
+      # Your KOSync server (Calibre with KOSync plugin, or standalone)
+      - KOSYNC_SERVER=https://kosync.ak-team.com:3042
+      - KOSYNC_USER=honeyblossom
+      - KOSYNC_KEY=Honey1027!!
+      # Hash method: 'content' (recommended) or 'filename'
+      - KOSYNC_HASH_METHOD=content
+      # Whether to use percentage progress from KOSync server instead of calculating from text matching when saving the previous state
+      - KOSYNC_USE_PERCENTAGE_FROM_SERVER=false
+
+      # ============================================
+      # Hardcover Integration (OPTIONAL)
+      # ============================================
+      # Get your token from: https://hardcover.app/account/api
+      # Leave empty or remove to disable Hardcover sync
+      # - HARDCOVER_TOKEN=your_hardcover_api_token_here
+
+      # ============================================
+      # Storyteller Integration (OPTIONAL)
+      # ============================================
+      # Option 1: REST API (Recommended - prevents mobile app overwrites)
+      # Use host.docker.internal to reach host machine from container
+      # - STORYTELLER_API_URL=http://host.docker.internal:8001
+      # - STORYTELLER_USER=your_storyteller_username
+      # - STORYTELLER_PASSWORD=your_storyteller_password
+
+      # Option 2: Direct SQLite (Legacy - may be overwritten by mobile app)
+      # Only used as fallback if API credentials not set
+      # - STORYTELLER_DB_PATH=/storyteller_data/storyteller.db
+
+      # ============================================
+      # Booklore Integration (OPTIONAL)
+      # ============================================
+      # Auto-add synced books to a Booklore shelf
+      # - BOOKLORE_SERVER=https://your-calibre-server.com
+      # - BOOKLORE_USER=your_username
+      # - BOOKLORE_PASSWORD=your_password
+      # - BOOKLORE_SHELF_NAME=Kobo
+
+      # ============================================
+      # Sync Behavior Settings
+      # ============================================
+      # How often to check for progress changes (minutes)
+      - SYNC_PERIOD_MINS=5
+      # Minimum audiobook progress change to trigger sync (seconds)
+      - SYNC_DELTA_ABS_SECONDS=60
+      # Minimum ebook progress change to trigger sync (percentage, 0-100)
+      - SYNC_DELTA_KOSYNC_PERCENT=0.5
+      # Minimum word count change to trigger sync
+      - SYNC_DELTA_KOSYNC_WORDS=400
+      # Fuzzy text matching threshold (0-100, higher = stricter)
+      - FUZZY_MATCH_THRESHOLD=88
+
+      - WHISPER_MODEL=base
+
+      # ============================================
+      # Book Linker Settings (OPTIONAL)
+      # ============================================
+      # For Storyteller automated processing workflow
+      # - MONITOR_INTERVAL=3600
+      # - LINKER_BOOKS_DIR=/linker_books
+      # - PROCESSING_DIR=/processing
+      # - AUDIOBOOKS_DIR=/audiobooks
+      # - STORYTELLER_INGEST_DIR=/storyteller/library
+
+      # ============================================
+      # Telegram Logging Integration (OPTIONAL)
+      # ============================================
+      # Enable Telegram log forwarding for errors and above.
+      # Get your bot token from @BotFather and chat ID from @userinfobot or via API.
+      # Uncomment and fill in the following lines to enable:
+      # - TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
+      # - TELEGRAM_CHAT_ID=123456789
+      # - TELEGRAM_LOG_LEVEL=ERROR  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+    volumes:
+      # ============================================
+      # REQUIRED VOLUMES
+      # ============================================
+      # App data (database, transcripts, state)
+      - ./data:/data
+
+      # Main ebook library (for sync matching)
+      - /mnt/D:/Calibre Library:/library
+
+      # ============================================
+      # OPTIONAL VOLUMES
+      # ============================================
+      # Storyteller database (for SQLite fallback)
+      # - /path/to/storyteller/data:/storyteller_data
+
+      # Book Linker volumes
+      # - /path/to/source/ebooks:/linker_books
+      # - /path/to/audiobooks:/audiobooks
+      # - /path/to/processing/folder:/processing
+      # - /path/to/storyteller/library:/storyteller/library
+
+    ports:
+      - "8066:5757"
+
+    networks:
+      - 68.50.75.104
+
+networks:
+  your-network:
+  68.50.75.104:
+    external: true
