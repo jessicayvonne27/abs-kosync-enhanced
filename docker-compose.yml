@@ -116,7 +116,7 @@ services:
       - ./data:/data
 
       # Main ebook library (for sync matching)
-      - /mnt/D:/Calibre Library:/books
+      - D:/Calibre Library:/books
 
       # ============================================
       # OPTIONAL VOLUMES
