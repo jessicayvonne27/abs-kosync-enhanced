@@ -21,7 +21,7 @@ services:
       # Audiobookshelf Configuration (REQUIRED)
       # ============================================
       # Your ABS server URL
-      - ABS_SERVER=https://audiobookshelf-honeyblossom.deadpool.mygiga.cloud
+      - ABS_SERVER=https://audiobookshelf-honeyblossom.deadpool.mygiga.cloud:443
       # API key from ABS: Settings -> Users -> Your User -> API Token
       - ABS_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlJZCI6IjEzNjQ4NGRjLWFjNWMtNDdkMC1iYWRlLTAzMTIyYWIzNjk3YSIsIm5hbWUiOiJkb2NrZXIiLCJ0eXBlIjoiYXBpIiwiaWF0IjoxNzY4NTMyOTQ3fQ.v4Srui6me1z_uEJjTRr3_tYLlBecMs8IpddkbcNYsGA
       # Library ID from URL: /library/THIS_PART_HERE
