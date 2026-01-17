@@ -130,7 +130,7 @@ services:
       # - /path/to/processing/folder:/processing
       # - /path/to/storyteller/library:/storyteller/library
 
-    entrypoint: /bin/sh -c "dnf install -y ca-certificates && update-ca-trust extract && app start"
+    entrypoint: /bin/sh -c "apt-get update && apt-get install -y ca-certificates && update-ca-certificates && app start"
 
     ports:
       - "8066:5757"
