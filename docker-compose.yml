@@ -117,7 +117,7 @@ services:
 
       # Main ebook library (for sync matching)
       - D:/Calibre Library:/books
-
+      - C:/Users/memen/Documents/Docker/abs-kosync-enhanced/certs/certificate.pem:/certs/certificate.pem
       # ============================================
       # OPTIONAL VOLUMES
       # ============================================
@@ -130,18 +130,26 @@ services:
       # - /path/to/processing/folder:/processing
       # - /path/to/storyteller/library:/storyteller/library
 
+    entrypoint: /bin/sh -c "dnf install -y ca-certificates && update-ca-trust extract && app start"
+
     ports:
       - "8066:5757"
 
     networks:
       - 68.50.75.104
       - 83.149.95.16
+      - 192.168.137.1
+      - 10.0.0.210
 
 networks:
   your-network:
   68.50.75.104:
     external: true
   83.149.95.16:
+    external: true
+  192.168.137.1:
+    external: true
+  10.0.0.210:
     external: true
 
 
