@@ -117,7 +117,7 @@ services:
 
       # Main ebook library (for sync matching)
       - D:/Calibre Library:/books
-      - C:/Users/memen/Documents/Docker/abs-kosync-enhanced/certs/certificate.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      - C:/Users/memen/Documents/Docker/abs-kosync-enhanced/certs:/etc/ssl/certs/
       # ============================================
       # OPTIONAL VOLUMES
       # ============================================
