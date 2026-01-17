@@ -130,7 +130,7 @@ services:
       # - /path/to/processing/folder:/processing
       # - /path/to/storyteller/library:/storyteller/library
 
-    entrypoint: apt-get update && apt-get install -y ca-certificates && update-ca-certificates && app start
+    # entrypoint: apt-get update && apt-get install -y ca-certificates && update-ca-certificates && app start
 
     ports:
       - "8066:5757"
@@ -151,7 +151,3 @@ networks:
     external: true
   10.0.0.210:
     external: true
-
-
-
-
