@@ -117,7 +117,7 @@ services:
 
       # Main ebook library (for sync matching)
       - D:/Calibre Library:/books
-      - C:/Users/memen/Documents/Docker/abs-kosync-enhanced/certs:/etc/ssl/certs/
+      - ./abs-kosync-enhanced/certs:/etc/ssl/certs/
       # ============================================
       # OPTIONAL VOLUMES
       # ============================================
@@ -130,7 +130,7 @@ services:
       # - /path/to/processing/folder:/processing
       # - /path/to/storyteller/library:/storyteller/library
 
-    entrypoint: /bin/sh -c "apt-get update && apt-get install -y ca-certificates && update-ca-certificates && app start"
+    entrypoint: apt-get update && apt-get install -y ca-certificates && update-ca-certificates && app start
 
     ports:
       - "8066:5757"
